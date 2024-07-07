@@ -70,6 +70,10 @@ kotlin {
             //Datetime
             implementation(libs.kotlinx.datetime)
 
+            //Multiplatform Settings
+            implementation(libs.multiplatform.settings.no.arg)
+            implementation(libs.multiplatform.settings.coroutines)
+
         }
     }
 }

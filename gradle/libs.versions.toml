@@ -17,6 +17,7 @@ kotlin = "2.0.0"
 lifecycleViewmodelCompose = "2.8.0"
 ktor = "2.3.12"
 coroutines = "1.8.1"
+multiplatformSettings = "1.1.1"
 realm = "2.0.0"
 datetime = "0.6.0"
 
@@ -41,6 +42,10 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 
 #Realm
 realm-kotlin-library-base = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
+
+#Multiplatform Settings
+multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatformSettings" }
+multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatformSettings" }
 
 #Datetime
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
