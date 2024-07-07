@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.realm.plugin)
 }
 
 kotlin {
@@ -33,6 +34,12 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            //Ktor
+            implementation(libs.ktor.client.android)
+
+            //Coroutines
+            implementation(libs.kotlinx.coroutines.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -41,6 +48,27 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+
+            //Lifecycle
+            implementation(libs.lifecycle.viewmodel.compose)
+
+            //Koin
+            implementation(libs.koin.core)
+
+            //Ktor
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+
+            //Coroutines
+            implementation(libs.kotlinx.coroutines.core)
+
+            //Realm
+            implementation(libs.realm.kotlin.library.base)
+
+            //Datetime
+            implementation(libs.kotlinx.datetime)
+
         }
     }
 }
