@@ -7,7 +7,7 @@ import data.remote.api.CurrencyApiServiceImpl
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
-    LaunchedEffect(Unit){
-        CurrencyApiServiceImpl().getLatestExchangeRates()
-    }
+//    LaunchedEffect(Unit){
+//        CurrencyApiServiceImpl().getLatestExchangeRates()
+//    }
 }
