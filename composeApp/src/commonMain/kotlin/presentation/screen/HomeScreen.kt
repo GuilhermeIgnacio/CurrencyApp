@@ -24,6 +24,9 @@ class HomeScreen : Screen {
 
         val viewModel = koinScreenModel<HomeViewModel>()
         val rateStatus by viewModel.rateStatus
+        val source by viewModel.sourceCurrency
+        val target by viewModel.targetCurrency
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -31,11 +34,14 @@ class HomeScreen : Screen {
         ) {
             HomeHeader(
                 status = rateStatus,
+                source = source,
+                target = target,
                 onRatesRefresh = {
                     viewModel.onEvent(
                         HomeUiEvent.RefreshRates
                     )
-                }
+                },
+                onSwitchClick = {}
             )
         }
     }

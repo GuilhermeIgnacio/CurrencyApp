@@ -2,9 +2,11 @@ package presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,21 +26,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import currencyapp.composeapp.generated.resources.Res
 import currencyapp.composeapp.generated.resources.exchange
-import currencyapp.composeapp.generated.resources.flags
+import currencyapp.composeapp.generated.resources.switch_icon
+import domain.model.Currency
+import domain.model.CurrencyCode
 import domain.model.RateStatus
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import domain.model.RequestState
 import org.jetbrains.compose.resources.painterResource
 import ui.theme.headerColor
 import ui.theme.staleColor
+import util.displayCurrentTime
 
 @Composable
 fun HomeHeader(
     status: RateStatus,
+    source: RequestState<Currency>,
+    target: RequestState<Currency>,
+    onSwitchClick: () -> Unit,
     onRatesRefresh: () -> Unit
 ) {
 
@@ -51,7 +58,20 @@ fun HomeHeader(
 
     ) {
         Spacer(modifier = Modifier.height(24.dp))
-        RatesStatus(status = status, onRatesRefresh = onRatesRefresh)
+
+        RatesStatus(
+            status = status,
+            onRatesRefresh = onRatesRefresh
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        CurrencyInputs(
+            source = source,
+            target = target,
+            onSwitchClick = onSwitchClick
+        )
+
     }
 
 }
@@ -103,28 +123,90 @@ fun RatesStatus(
     }
 }
 
-fun displayCurrentTime(): String {
-    val currentTimeStamp = Clock.System.now()
-    val date = currentTimeStamp.toLocalDateTime(TimeZone.currentSystemDefault())
+@Composable
+fun CurrencyInputs(
+    source: RequestState<Currency>,
+    target: RequestState<Currency>,
+    onSwitchClick: () -> Unit
+) {
 
-    //Format the LocalDate into the desired representation
-    val dayOfTheMonth = date.dayOfMonth
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        CurrencyView(
+            placeholder = "from",
+            currency = source,
+            onClick = {}
+        )
+        Spacer(modifier = Modifier.height(14.dp))
 
-    val month = date.month.toString().lowercase().replaceFirstChar {
-        if (it.isLowerCase()) it.titlecase() else it.toString()
+        IconButton(
+            modifier = Modifier.padding(top = 24.dp),
+            onClick = onSwitchClick
+        ) {
+            Icon(
+                painter = painterResource(Res.drawable.switch_icon),
+                contentDescription = "Switch Icon",
+                tint = Color.White
+            )
+        }
+
+        Spacer(modifier = Modifier.height(14.dp))
+
+        CurrencyView(
+            placeholder = "to",
+            currency = source,
+            onClick = {}
+        )
+
     }
-    val year = date.year
 
-    //Determine the suffix for the day of the month
-    val suffix = when {
-        dayOfTheMonth in 11..13 -> "th"
-        dayOfTheMonth % 10 == 1 -> "st"
-        dayOfTheMonth % 10 == 2 -> "nd"
-        dayOfTheMonth % 10 == 3 -> "rd"
-        else -> "th"
+}
+
+@Composable
+fun RowScope.CurrencyView(
+    placeholder: String,
+    currency: RequestState<Currency>,
+    onClick: () -> Unit
+) {
+    Column(modifier = Modifier.weight(1f)) {
+        Text(
+            modifier = Modifier.padding(start = 12.dp),
+            text = placeholder,
+            fontSize = MaterialTheme.typography.bodySmall.fontSize,
+            color = Color.White
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(size = 8.dp))
+                .background(Color.White.copy(alpha = 0.05f))
+                .height(54.dp)
+                .clickable { onClick() },
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            if (currency.isSuccess()) {
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    painter = painterResource(
+                        CurrencyCode.valueOf(
+                            currency.getSuccessData().code
+                        ).flag
+                    ),
+                    tint = Color.Unspecified,
+                    contentDescription = "Country Flag"
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = CurrencyCode.valueOf(currency.getSuccessData().code).name,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                    color = Color.White
+                )
+            }
+        }
     }
-
-    //Format the date in the desired representation
-    return "$dayOfTheMonth$suffix $month, $year"
-
 }
