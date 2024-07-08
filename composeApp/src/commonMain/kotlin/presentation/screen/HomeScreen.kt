@@ -7,6 +7,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -27,6 +30,8 @@ class HomeScreen : Screen {
         val source by viewModel.sourceCurrency
         val target by viewModel.targetCurrency
 
+        var amount by rememberSaveable{ mutableStateOf(0.0) }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -36,6 +41,8 @@ class HomeScreen : Screen {
                 status = rateStatus,
                 source = source,
                 target = target,
+                amount = amount,
+                onAmountChange = { amount = it },
                 onRatesRefresh = {
                     viewModel.onEvent(
                         HomeUiEvent.RefreshRates
