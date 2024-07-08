@@ -1,6 +1,8 @@
 package domain.model
 
 import androidx.compose.ui.graphics.Color
+import ui.theme.freshColor
+import ui.theme.staleColor
 
 enum class RateStatus(
     val title: String,
@@ -13,11 +15,11 @@ enum class RateStatus(
     ),
     Fresh(
         title = "Fresh rates",
-        color = Color.Green
+        color = freshColor
     ),
     Stale(
         title = "Rates are not fresh",
-        color = Color.Yellow
+        color = staleColor
     )
 
 }

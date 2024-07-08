@@ -33,6 +33,8 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.painterResource
+import ui.theme.headerColor
+import ui.theme.staleColor
 
 @Composable
 fun HomeHeader(
@@ -44,7 +46,7 @@ fun HomeHeader(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
-            .background(Color.Blue)
+            .background(headerColor)
             .padding(24.dp)
 
     ) {
@@ -66,7 +68,7 @@ fun RatesStatus(
     ) {
         Row {
             Image(
-                modifier = Modifier.size(50.dp).background(color = Color.Blue),
+                modifier = Modifier.size(50.dp),
                 painter = painterResource(Res.drawable.exchange),
                 contentDescription = "Exchange Rate Illustration",
                 colorFilter = ColorFilter.tint(Color.White)
@@ -94,7 +96,7 @@ fun RatesStatus(
                     modifier = Modifier.size(24.dp),
                     imageVector = Icons.Default.Refresh,
                     contentDescription = "Refresh Icon",
-                    tint = Color.Yellow
+                    tint = staleColor
                 )
             }
         }

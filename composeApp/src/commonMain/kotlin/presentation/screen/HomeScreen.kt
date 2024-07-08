@@ -14,6 +14,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.koin.koinScreenModel
 import presentation.component.HomeHeader
+import ui.theme.surfaceColor
 
 
 class HomeScreen : Screen {
@@ -26,7 +27,7 @@ class HomeScreen : Screen {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surface)
+                .background(surfaceColor)
         ) {
             HomeHeader(
                 status = rateStatus,
