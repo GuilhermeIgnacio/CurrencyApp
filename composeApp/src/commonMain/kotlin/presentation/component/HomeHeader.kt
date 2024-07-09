@@ -170,7 +170,7 @@ fun CurrencyInputs(
 
         CurrencyView(
             placeholder = "to",
-            currency = source,
+            currency = target,
             onClick = {}
         )
 
