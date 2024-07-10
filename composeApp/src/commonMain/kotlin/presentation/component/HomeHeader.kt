@@ -1,6 +1,8 @@
 package presentation.component
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,11 +27,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -84,7 +91,7 @@ fun HomeHeader(
         Spacer(modifier = Modifier.height(24.dp))
 
         AmountInput(
-            amount = amount ,
+            amount = amount,
             onAmountChange = onAmountChange
         )
 
@@ -146,6 +153,12 @@ fun CurrencyInputs(
     onSwitchClick: () -> Unit
 ) {
 
+    var animationStarted by remember { mutableStateOf(false) }
+    val animationRotation by animateFloatAsState(
+        targetValue = if (animationStarted) 180f else 0f,
+        animationSpec = tween(durationMillis = 500)
+    )
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -157,8 +170,12 @@ fun CurrencyInputs(
         )
         Spacer(modifier = Modifier.height(14.dp))
         IconButton(
-            modifier = Modifier.padding(top = 24.dp),
-            onClick = onSwitchClick
+            modifier = Modifier.padding(top = 24.dp)
+                .graphicsLayer { rotationY = animationRotation },
+            onClick = {
+                animationStarted = !animationStarted
+                onSwitchClick()
+            }
         ) {
             Icon(
                 painter = painterResource(Res.drawable.switch_icon),
