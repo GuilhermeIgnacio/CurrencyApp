@@ -56,7 +56,7 @@ class CurrencyApiServiceImpl(
                         .contains(it)
                 }
 
-                val availabeCurrencies = apiResponse.data.values
+                val availableCurrencies = apiResponse.data.values
                     .filter { currency ->
                         availableCurrencyCodes.contains(currency.code)
                     }
@@ -65,9 +65,7 @@ class CurrencyApiServiceImpl(
                 val lastUpdated = apiResponse.meta.lastUpdatedAt
                 preferences.saveLastUpdate(lastUpdated)
 
-                RequestState.Success(data = availabeCurrencies)
-
-                RequestState.Success(data = apiResponse.data.values.toList())
+                RequestState.Success(data = availableCurrencies)
             } else {
                 RequestState.Error(message = "HTTP Error Code: ${response.status}")
             }

@@ -103,6 +103,7 @@ class HomeViewModel(
             if (localCache.isSuccess()) {
                 if (localCache.getSuccessData().isNotEmpty()) {
                     println("HomeViewModel: DATABASE IS FULL")
+                    _allCurrencies.clear()
                     _allCurrencies.addAll(localCache.getSuccessData())
                     if (!preferences.isDataFresh(Clock.System.now().toEpochMilliseconds())) {
                         println("HomeViewModel: DATA NOT FRESH")
@@ -117,7 +118,7 @@ class HomeViewModel(
             } else if (localCache.isError()) {
                 println("HomeViewModel: ERROR READING LOCAL DATABASE ${localCache.getErrorData()}")
             }
-            api.getLatestExchangeRates()
+            getRateStatus()
         } catch (e: Exception) {
             println(e.stackTraceToString())
         }
@@ -132,6 +133,7 @@ class HomeViewModel(
                 mongoDb.insertCurrencyData(it)
             }
             println("HomeViewModel: UPDATING _allCurrencies")
+            _allCurrencies.clear()
             _allCurrencies.addAll(fetchData.getSuccessData())
         } else if (fetchData.isError()) {
             println("HomeViewModel: Fething Failed ${fetchData.getErrorData()}")
