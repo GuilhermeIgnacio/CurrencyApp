@@ -47,6 +47,7 @@ import currencyapp.composeapp.generated.resources.exchange
 import currencyapp.composeapp.generated.resources.switch_icon
 import domain.model.Currency
 import domain.model.CurrencyCode
+import domain.model.DisplayResult
 import domain.model.RateStatus
 import domain.model.RequestState
 import org.jetbrains.compose.resources.painterResource
@@ -219,25 +220,27 @@ fun RowScope.CurrencyView(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            if (currency.isSuccess()) {
-                Icon(
-                    modifier = Modifier.size(24.dp),
-                    painter = painterResource(
-                        CurrencyCode.valueOf(
-                            currency.getSuccessData().code
-                        ).flag
-                    ),
-                    tint = Color.Unspecified,
-                    contentDescription = "Country Flag"
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = CurrencyCode.valueOf(currency.getSuccessData().code).name,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                    color = Color.White
-                )
-            }
+            currency.DisplayResult(
+                onSuccess = { data ->
+                    Icon(
+                        modifier = Modifier.size(24.dp),
+                        painter = painterResource(
+                            CurrencyCode.valueOf(
+                                data.code
+                            ).flag
+                        ),
+                        tint = Color.Unspecified,
+                        contentDescription = "Country Flag"
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = CurrencyCode.valueOf(data.code).name,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                        color = Color.White
+                    )
+                }
+            )
         }
     }
 }
