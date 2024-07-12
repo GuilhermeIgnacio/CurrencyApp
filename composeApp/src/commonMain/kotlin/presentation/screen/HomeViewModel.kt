@@ -24,6 +24,8 @@ import kotlinx.datetime.Clock
 sealed class HomeUiEvent {
     data object RefreshRates : HomeUiEvent()
     data object SwitchCurrencies : HomeUiEvent()
+    data class SaveSourceCurrencyCode(val value: String): HomeUiEvent()
+    data class SaveTargetCurrencyCode(val value: String): HomeUiEvent()
 }
 
 class HomeViewModel(
@@ -65,6 +67,18 @@ class HomeViewModel(
 
             HomeUiEvent.SwitchCurrencies -> {
                 switchCurrencies()
+            }
+
+            is HomeUiEvent.SaveSourceCurrencyCode -> {
+                screenModelScope.launch {
+                    preferences.saveSourceCurrencyCode(event.value)
+                }
+            }
+
+            is HomeUiEvent.SaveTargetCurrencyCode -> {
+                screenModelScope.launch {
+                    preferences.saveTargetCurrencyCode(event.value)
+                }
             }
         }
     }

@@ -3,24 +3,16 @@ package presentation.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.koin.koinScreenModel
 import domain.model.CurrencyType
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import presentation.component.CurrencyPickerDialog
 import presentation.component.HomeHeader
 import ui.theme.surfaceColor
@@ -45,16 +37,25 @@ class HomeScreen : Screen {
             mutableStateOf(CurrencyType.None)
         }
 
-        var dialogOpened by remember { mutableStateOf(true) }
+        var dialogOpened by remember { mutableStateOf(false) }
 
-        if (dialogOpened) {
+        if (dialogOpened && selectedCurrencyType != CurrencyType.None) {
             CurrencyPickerDialog(
                 currencies = allCurrencies,
                 currencyType = selectedCurrencyType,
-                onPositiveClick = {
+                onConfirmClick = { currencyCode ->
+
+                    if (selectedCurrencyType is CurrencyType.Source) {
+                        viewModel.onEvent(HomeUiEvent.SaveSourceCurrencyCode(currencyCode.name))
+                    } else if (selectedCurrencyType is CurrencyType.Target) {
+                        viewModel.onEvent(HomeUiEvent.SaveTargetCurrencyCode(currencyCode.name))
+                    }
+
+                    selectedCurrencyType = CurrencyType.None
                     dialogOpened = false
                 },
                 onDismiss = {
+                    selectedCurrencyType = CurrencyType.None
                     dialogOpened = false
                 }
             )
@@ -76,7 +77,11 @@ class HomeScreen : Screen {
                         HomeUiEvent.RefreshRates
                     )
                 },
-                onSwitchClick = { viewModel.onEvent(HomeUiEvent.SwitchCurrencies) }
+                onSwitchClick = { viewModel.onEvent(HomeUiEvent.SwitchCurrencies) },
+                onCurrencyTypeSelect = { currencyType ->
+                    selectedCurrencyType = currencyType
+                    dialogOpened = true
+                }
             )
         }
     }

@@ -47,6 +47,7 @@ import currencyapp.composeapp.generated.resources.exchange
 import currencyapp.composeapp.generated.resources.switch_icon
 import domain.model.Currency
 import domain.model.CurrencyCode
+import domain.model.CurrencyType
 import domain.model.DisplayResult
 import domain.model.RateStatus
 import domain.model.RequestState
@@ -63,7 +64,8 @@ fun HomeHeader(
     amount: Double,
     onAmountChange: (Double) -> Unit,
     onSwitchClick: () -> Unit,
-    onRatesRefresh: () -> Unit
+    onRatesRefresh: () -> Unit,
+    onCurrencyTypeSelect: (CurrencyType) -> Unit
 ) {
 
     Column(
@@ -86,7 +88,8 @@ fun HomeHeader(
         CurrencyInputs(
             source = source,
             target = target,
-            onSwitchClick = onSwitchClick
+            onSwitchClick = onSwitchClick,
+            onCurrencyTypeSelect = onCurrencyTypeSelect
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -151,7 +154,8 @@ fun RatesStatus(
 fun CurrencyInputs(
     source: RequestState<Currency>,
     target: RequestState<Currency>,
-    onSwitchClick: () -> Unit
+    onSwitchClick: () -> Unit,
+    onCurrencyTypeSelect: (CurrencyType) -> Unit
 ) {
 
     var animationStarted by remember { mutableStateOf(false) }
@@ -167,7 +171,17 @@ fun CurrencyInputs(
         CurrencyView(
             placeholder = "from",
             currency = source,
-            onClick = {}
+            onClick = {
+                if (source.isSuccess()) {
+                    onCurrencyTypeSelect(
+                        CurrencyType.Source(
+                            currencyCode = CurrencyCode.valueOf(
+                                source.getSuccessData().code
+                            )
+                        )
+                    )
+                }
+            }
         )
         Spacer(modifier = Modifier.height(14.dp))
         IconButton(
@@ -189,7 +203,17 @@ fun CurrencyInputs(
         CurrencyView(
             placeholder = "to",
             currency = target,
-            onClick = {}
+            onClick = {
+                if (target.isSuccess()) {
+                    onCurrencyTypeSelect(
+                        CurrencyType.Target(
+                            currencyCode = CurrencyCode.valueOf(
+                                target.getSuccessData().code
+                            )
+                        )
+                    )
+                }
+            }
         )
 
     }

@@ -7,6 +7,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -66,6 +67,7 @@ fun CurrencyCodePickerView(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(size = 8.dp))
+            .clickable { onSelect(code) }
             .padding(all = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -93,7 +95,7 @@ fun CurrencyCodePickerView(
 @Composable
 private fun CurrencyCodeSelector(isSelected: Boolean = false) {
     val animateColor by animateColorAsState(
-        targetValue = if(isSelected) primaryColor else textColor.copy(alpha = 0.1f),
+        targetValue = if (isSelected) primaryColor else textColor.copy(alpha = 0.1f),
         animationSpec = tween(durationMillis = 300)
     )
 
