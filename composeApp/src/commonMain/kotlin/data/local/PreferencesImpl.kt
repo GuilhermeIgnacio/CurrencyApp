@@ -51,7 +51,8 @@ class PreferencesImpl(
             val currentDateTime = currentInstant.toLocalDateTime(TimeZone.currentSystemDefault())
             val savedDateTime = savedInstant.toLocalDateTime(TimeZone.currentSystemDefault())
 
-            val daysDifference = currentDateTime.date.dayOfYear - savedDateTime.date.dayOfYear
+            val daysDifference =
+                currentDateTime.date.dayOfYear - (savedDateTime.date.dayOfYear + 1) //Adding 1 because savedDateTime is always one day before
             daysDifference < 1
 
         } else false
