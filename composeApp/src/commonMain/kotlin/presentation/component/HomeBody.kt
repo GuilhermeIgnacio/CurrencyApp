@@ -72,7 +72,7 @@ fun HomeBody(
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = "1 ${source.getSuccessData().code} = " +
-                                "${target.getSuccessData().value} " +
+                                "${target.getSuccessData().value / source.getSuccessData().value} " +
                                 target.getSuccessData().code,
                         fontSize = MaterialTheme.typography.bodySmall.fontSize,
                         color = if (isSystemInDarkTheme()) Color.White.copy(alpha = 0.5f)
@@ -83,7 +83,7 @@ fun HomeBody(
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = "1 ${target.getSuccessData().code} = " +
-                                "${source.getSuccessData().value} " +
+                                "${source.getSuccessData().value / target.getSuccessData().value} " +
                                 source.getSuccessData().code,
                         fontSize = MaterialTheme.typography.bodySmall.fontSize,
                         color = if (isSystemInDarkTheme()) Color.White.copy(alpha = 0.5f)

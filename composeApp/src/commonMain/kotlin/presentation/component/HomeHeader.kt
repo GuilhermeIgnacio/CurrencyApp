@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -73,7 +74,8 @@ fun HomeHeader(
             .fillMaxWidth()
             .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
             .background(headerColor)
-            .padding(24.dp)
+            .padding(bottom = 24.dp, start = 24.dp, end = 24.dp)
+            .statusBarsPadding()
 
     ) {
         Spacer(modifier = Modifier.height(24.dp))
@@ -169,7 +171,7 @@ fun CurrencyInputs(
         verticalAlignment = Alignment.CenterVertically
     ) {
         CurrencyView(
-            placeholder = "from",
+            placeholder = "From",
             currency = source,
             onClick = {
                 if (source.isSuccess()) {
@@ -201,7 +203,7 @@ fun CurrencyInputs(
         Spacer(modifier = Modifier.height(14.dp))
 
         CurrencyView(
-            placeholder = "to",
+            placeholder = "To",
             currency = target,
             onClick = {
                 if (target.isSuccess()) {

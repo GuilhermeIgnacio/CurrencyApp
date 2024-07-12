@@ -3,6 +3,7 @@ package presentation.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,8 +30,6 @@ class HomeScreen : Screen {
         val allCurrencies = viewModel.allCurrencies
         val source by viewModel.sourceCurrency
         val target by viewModel.targetCurrency
-
-        println("HomeScreen Currencies: $allCurrencies")
 
         var amount by rememberSaveable { mutableStateOf(0.0) }
 
