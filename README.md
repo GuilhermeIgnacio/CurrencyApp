@@ -17,7 +17,7 @@
 - [License](#license)
 
 ## Introduction
-- This currency app is designed to simplify your financial travels and transactions. Whether you're planning an international trip, managing currencies, or just curious about exchange rates, CurrencyMate has got you covered.
+- This currency app is designed to simplify your financial travels and transactions. Whether you're planning an international trip, managing currencies, or just curious about exchange rates.
 
 ## Preview
 <p align="center">
