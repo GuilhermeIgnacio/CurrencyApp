@@ -85,7 +85,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.guilherme.knews"
+    namespace = "com.guilherme.currencyapp"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -93,7 +93,7 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        applicationId = "com.guilherme.knews"
+        applicationId = "com.guilherme.currencyapp"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
